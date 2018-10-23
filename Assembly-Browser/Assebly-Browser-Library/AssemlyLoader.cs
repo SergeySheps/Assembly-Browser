@@ -14,6 +14,7 @@ namespace Assebly_Browser_Library
         {
             asm = Assembly.LoadFrom(pathDll);
             LoadNamespaces();
+            LoadDataTypes();
 
             return namespaces;
         }
@@ -28,8 +29,19 @@ namespace Assebly_Browser_Library
                 {
                     namespaces.Add(new Namespace()
                     {
-                        Name = type.Namespace
+                        Name = type.Namespace,
                     });
+                }
+            }
+        }
+
+        private void LoadDataTypes()
+        {
+            foreach (var ns in namespaces)
+            {
+                foreach (var type in asm.DefinedTypes.Where(x => x.Namespace == ns.Name))
+                {
+                    ns.DataTypes.Add(new TypeData(type));
                 }
             }
         }
