@@ -7,7 +7,14 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBlock HorizontalAlignment="Left" Height="358" Margin="198,10,0,0" Background="LightGray" TextWrapping="Wrap" Text="{Binding OutputString}" VerticalAlignment="Top" Width="569"/>
+        <ScrollViewer>
+            <TextBlock HorizontalAlignment="Left" 
+                       Margin="198,10,0,0" Background="LightGray" 
+                       TextWrapping="Wrap" Text="{Binding OutputString}"
+                       VerticalAlignment="Top"
+                       Width="569"
+                       />
+        </ScrollViewer>
         <Button Content="Load Assembly"  Command="{Binding OpenCommand}" HorizontalAlignment="Left" Margin="30,39,0,0" VerticalAlignment="Top" Width="98" Height="25">
         </Button>
     </Grid>
