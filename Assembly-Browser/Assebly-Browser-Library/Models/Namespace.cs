@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Assebly_Browser_Library.Models
 {
@@ -10,9 +6,12 @@ namespace Assebly_Browser_Library.Models
     {
         public string Name { get; set; }
 
+        public List<TypeData> DataTypes { get; set; }
+
         public Namespace()
         {
-
+            DataTypes = new List<TypeData>();
         }
+
     }
 }

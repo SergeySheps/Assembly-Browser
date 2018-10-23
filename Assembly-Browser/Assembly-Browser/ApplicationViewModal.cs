@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using Assebly_Browser_Library;
+using Assebly_Browser_Library.Models;
 
 namespace Assembly_Browser
 {
     public class ApplicationViewModel : INotifyPropertyChanged
     {
         private readonly IDialogService dialogService;
-        private RelayCommand _openCommand;
+        private AssemblyLoader assemblyLoader;
+        private List<Namespace> namespaces;
+        private RelayCommand openCommand;
         private string outputString;
 
         public string OutputString
@@ -29,14 +32,14 @@ namespace Assembly_Browser
         {
             get
             {
-                return _openCommand ??
-                       (_openCommand = new RelayCommand(obj =>
+                return openCommand ??
+                       (openCommand = new RelayCommand(obj =>
                        {
                            try
                            {
                                if (dialogService.OpenFileDialog())
                                {
-                                   
+                                   Namespaces = assemblyLoader.GetAssemblyInformation(dialogService.FilePath);
                                }
                            }
                            catch (Exception ex)
@@ -47,10 +50,51 @@ namespace Assembly_Browser
             }
         }
 
+
+        public List<Namespace> Namespaces
+        {
+            get => namespaces;
+            set
+            {
+                namespaces = value;
+                NamespacesToString();
+                OnPropertyChanged();
+            }
+        }
+
         public ApplicationViewModel(IDialogService dialogService)
         {
             this.dialogService = dialogService;
-            
+            assemblyLoader = new AssemblyLoader();
+        }
+
+        private void NamespacesToString()
+        {
+            string res = "";
+            foreach (var ns in namespaces)
+            {
+                res += $"{ns.Name}:\n";
+                foreach (var dataType in ns.DataTypes)
+                {
+                    res += $"  {dataType.Name}:\n";
+                    foreach (var field in dataType.Fields)
+                    {
+                        res += $"    Field: {field.Type} {field.Name}\n";
+                    }
+
+                    foreach (var property in dataType.Properties)
+                    {
+                        res += $"    Property: {property.Type} {property.Name}\n";
+                    }
+
+                    foreach (var method in dataType.Methods)
+                    {
+                        res += $"    Method: {method.Signature}\n";
+                    }
+                }
+            }
+
+            OutputString = res;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,6 +103,7 @@ namespace Assembly_Browser
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
 
     }
 }

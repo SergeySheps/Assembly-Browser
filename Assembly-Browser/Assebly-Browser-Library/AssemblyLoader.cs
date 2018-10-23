@@ -5,7 +5,7 @@ using Assebly_Browser_Library.Models;
 
 namespace Assebly_Browser_Library
 {
-    public class AssemlyLoader
+    public class AssemblyLoader
     {
         private List<Namespace> namespaces;
         private Assembly asm;

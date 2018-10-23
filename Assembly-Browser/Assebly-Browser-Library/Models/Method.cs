@@ -1,12 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Assebly_Browser_Library.Models
 {
-    class Method
+    public class Method
     {
+        public string Name { get; set; }
+
+        public string Signature { get; set; }
+
+        public Method(MethodInfo method)
+        {
+            Signature = "public ";
+
+            if (method.IsStatic)
+            {
+                Signature += "static ";
+            }
+            else if (method.IsVirtual)
+            {
+                Signature += "virtual ";
+            }
+
+            Signature += method + ";";
+        }
     }
 }
