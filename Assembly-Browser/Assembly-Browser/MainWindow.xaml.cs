@@ -24,7 +24,7 @@ namespace Assembly_Browser
         {
             InitializeComponent();
 
-            DataContext = new ApplicationViewModel();
+            DataContext = new ApplicationViewModel(new DefaultDialogService());
         }
     }
 }
