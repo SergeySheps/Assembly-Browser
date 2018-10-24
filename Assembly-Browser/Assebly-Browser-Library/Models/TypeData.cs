@@ -48,7 +48,10 @@ namespace Assebly_Browser_Library.Models
 
             foreach (var method in methods)
             {
-                Methods.Add(new Method(method));
+                if (!method.IsSpecialName)
+                {
+                    Methods.Add(new Method(method));
+                }
             }
         }
     }
